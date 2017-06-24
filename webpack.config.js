@@ -1,14 +1,10 @@
 var webpack = require("webpack");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var plugins = [].concat([
-    new webpack.optimize.UglifyJsPlugin()
-]);
-
 module.exports = {
     entry: "./src/profile.js",
     output: {
-        path: __dirname,
+        path: __dirname + "/dist",
         filename: "profile.min.js"
     },
     module: {
@@ -18,5 +14,5 @@ module.exports = {
             include: __dirname + "/src"
         }]
     },
-    plugins: plugins
+    plugins: [new webpack.optimize.UglifyJsPlugin()]
 }
