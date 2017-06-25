@@ -5,13 +5,12 @@ const create = require("./create.js");
 window.profile_picture = function() {
 
     create.method(document.body);
-    //console.log(create);
 
     var image = new Image();
     var image_1 = new Image();
-    var img_x_start, img_y_start, img_x_end, img_y_end, left_button, img_x = 0,
+    var img_x = 0,
         img_y = 0,
-        img_width, img_height, profile_x, profile_y;
+        img_width, img_height, profile_x, profile_y, clientX, clientY, profile_width, profile_height;
 
     const reader = new FileReader();
     const ctx = create.canvas.getContext("2d");
@@ -26,35 +25,38 @@ window.profile_picture = function() {
             if (image.width / image.height) {
                 img_width = 400 * image.width / image.height;
                 img_height = 400;
-                profile_x = profile_y = 150;
-                img_x = (400 - img_width) / 2;
-                img_y = (400 - img_height) / 2;
             } else {
                 img_width = 400;
                 img_height = 400 * image.height / image.width;
-                profile_x = profile_y = 150;
-                img_x = (400 - img_width) / 2;
-                img_y = (400 - img_height) / 2;
             }
+            img_x = (400 - img_width) / 2;
+            img_y = (400 - img_height) / 2;
 
             ctx.drawImage(image, img_x, img_y, img_width, img_height);
 
             create.profile_sys.appendChild(create.profile);
-            create.profile.style.top = create.canvas.offsetTop + profile_x;
-            create.profile.style.left = create.canvas.offsetLeft + profile_y;
-            //create.profile.style.width = create.profile.style.height = img_height;
+            profile_x = create.canvas.offsetLeft + (400 - create.profile.offsetWidth) / 2;
+            profile_y = create.canvas.offsetTop + (400 - create.profile.offsetHeight) / 2;
+            create.profile.style.top = profile_y;
+            create.profile.style.left = profile_x;
 
             create.profile_sys.onmousedown = function(e) {
-                console.log(e);
+                clientX = e.clientX;
+                clientY = e.clientY;
                 if (e.button == 0 && e.target == create.profile) {
-                    img_x_start = e.layerX;
-                    img_y_start = e.layerY;
-                    left_button = 1;
-                    console.log(img_x_start, 1);
-                    console.log(img_y_start, 2);
                     if (e.layerX <= 10 && e.layerY <= 10) {
-                        create.profile_sys.onmousemove = changeSize;
-                        create.profile_sys.onmouseup = changeSize;
+                        create.profile_sys.onmousemove = function(e) {
+                            if (e.button == 0 && e.buttons == 1) {
+                                profile_width = create.profile.offsetWidth - (clientX - e.clientX);
+                                profile_height = create.profile.offsetHeight - (clientY - e.clientY);
+                                clientX = e.clientX;
+                                clientY = e.clientY;
+                                var size = profile_width <= profile_height ? profile_width : profile_height;
+                                var position = profile_width <= profile_height ? clientX : clientY;
+                                changeSize(size, position)
+                            }
+                        };
+                        //create.profile_sys.onmouseup = changeSize;
                     } else if (e.layerX <= 10 && e.layerY >= create.profile.offsetHeight - 10) {
                         create.profile_sys.onmousemove = changeSize;
                         create.profile_sys.onmouseup = changeSize;
@@ -65,51 +67,57 @@ window.profile_picture = function() {
                         create.profile_sys.onmousemove = changeSize;
                         create.profile_sys.onmouseup = changeSize;
                     } else {
-                        create.profile_sys.onblur = function() { console.log("blur") };
-                        create.profile_sys.onfocus = function() { console.log("focus") };
                         create.profile_sys.onmousemove = moveProfile;
                         create.profile_sys.onmouseup = moveProfile;
                     }
                 }
             };
-            // create.profile_sys.onmousemove = function(e) {
-            //     if (e.button == 0 && e.target == create.profile) {
-            // img_x_end = e.layerX;
-            // img_y_end = e.layerY;
-            // console.log(img_x_end);
-            // console.log(img_y_end);
-            // ctx.clearRect(0, 0, create.canvas.width, create.canvas.height);
-            // ctx.drawImage(image, img_x + img_x_end - img_x_start, img_y + img_y_end - img_y_start, 300, 150);
-            //     }
-            // }
-            // create.profile_sys.onmouseup = function(e) {
-            //     if (e.button == 0) {
-            // img_x = img_x + img_x_end - img_x_start;
-            // img_y = img_y + img_y_end - img_y_start;
-            // console.log(img_x);
-            // console.log(img_y);
-            // ctx.clearRect(0, 0, create.canvas.width, create.canvas.height);
-            // ctx.drawImage(image, img_x, img_y, 300, 150);
-            // left_button = 0;
-            // image_1.src = create.canvas.toDataURL();
-            // ctx_1.drawImage(image_1, 0, 0, 300, 150);
-            //     }
-            // }
 
-            function changeSize(e) {
+            function changeSize(size, position) {
                 console.log(e.target);
-                console.log("size");
+                create.profile.style.width = create.profile.style.height = size;
             }
 
             function moveProfile(e) {
                 if (e.button == 0 && e.buttons == 1 && e.type == "mousemove") {
-                    create.profile.style.top = e.clientY - create.profile.offsetHeight / 2;
-                    create.profile.style.left = e.clientX - create.profile.offsetWidth / 2;
+
+                    profile_y = profile_y + (e.clientY - clientY);
+                    profile_x = profile_x + (e.clientX - clientX);
+
+                    //check profile's position limit in canvas
+                    if (profile_y >= create.canvas.offsetTop && profile_y <= create.canvas.offsetTop + create.canvas.offsetHeight - create.profile.offsetHeight) {
+                        clientY = e.clientY;
+                        create.profile.style.top = profile_y;
+                    } else if (profile_y < create.canvas.offsetTop) {
+                        profile_y = create.canvas.offsetTop;
+                    } else if (profile_y > create.canvas.offsetTop + create.canvas.offsetHeight - create.profile.offsetHeight) {
+                        profile_y = create.canvas.offsetTop + create.canvas.offsetHeight - create.profile.offsetHeight;
+                    }
+
+                    if (profile_x >= create.canvas.offsetLeft && profile_x <= create.canvas.offsetLeft + create.canvas.offsetWidth - create.profile.offsetWidth) {
+                        clientX = e.clientX;
+                        create.profile.style.left = profile_x;
+                    } else if (profile_x < create.canvas.offsetLeft) {
+                        profile_x = create.canvas.offsetLeft;
+                    } else if (profile_x > create.canvas.offsetLeft + create.canvas.offsetWidth - create.profile.offsetWidth) {
+                        profile_x = create.canvas.offsetLeft + create.canvas.offsetWidth - create.profile.offsetWidth;
+                    }
+
+                    //预览
+                    showProfile();
                 } else if (e.button == 0 && e.buttons == 0 && e.type == "mouseup") {
-                    create.profile.style.top = e.clientY - create.profile.offsetHeight / 2;
-                    create.profile.style.left = e.clientX - create.profile.offsetWidth / 2;
+                    //create.profile.style.top = create.profile.offsetTop + (e.clientY - clientY);
+                    //create.profile.style.left = create.profile.offsetLeft + (e.clientX - clientX);
                 }
             }
         }
     }
 }
+
+function showProfile() {
+    //canvas.toDataURL();
+    var getimage = ctx.getImageData(create.profile.offsetLeft - create.canvas.offsetLeft, create.profile.offsetTop - create.canvas.offsetTop, create.profile.offsetWidth, create.profile.offsetHeight);
+    ctx.putImageData(getimage, x, y);
+}
+
+module.exports = showProfile;
