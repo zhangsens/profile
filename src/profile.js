@@ -1,3 +1,4 @@
+const config = require("./config");
 const create = require("./create.js");
 const colorful = require("./colorful.js")
 
@@ -118,10 +119,10 @@ window.profile_picture = function(option) {
 
                 var size = width >= height ? height : width;
 
-                if (size < min_size) {
-                    size = min_size;
-                } else if (size > max_size) {
-                    size = max_size;
+                if (size < minSize) {
+                    size = minSize;
+                } else if (size > maxSize) {
+                    size = maxSize;
                 }
                 var position = size - profile_width;
 
@@ -220,5 +221,7 @@ window.profile_picture = function(option) {
 }
 
 profile_picture.prototype.imageData = undefined;
+
+profile_picture.prototype.colorful = colorful;
 
 module.exports = profile_picture;
