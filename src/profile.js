@@ -24,6 +24,7 @@ window.profile_picture = function(option) {
     const dctx = canvas.getContext("2d");
 
     create.input.onchange = function(e) {
+        ctx.clearRect(0, 0, create.canvas.width, create.canvas.height);
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = function() {
             image.src = reader.result;
@@ -194,34 +195,53 @@ window.profile_picture = function(option) {
                 } else if (e.button == 0 && e.buttons == 0 && e.type == "mouseup") {}
             }
 
-            function profileData() {
-
-                var getimage = ctx.getImageData(create.profile.offsetLeft - create.canvas.offsetLeft, create.profile.offsetTop - create.canvas.offsetTop, create.profile.offsetWidth, create.profile.offsetHeight);
-
-                for (var i = 0; i < getimage.data.length; i += 4) {
-                    //黑白处理
-                    getimage.data[i] = getimage.data[i];
-                    getimage.data[i + 1] = getimage.data[i + 1];
-                    getimage.data[i + 2] = getimage.data[i + 2];
-                    getimage.data[i + 3] = 255;
-                }
-
-                ctx_1.putImageData(getimage, 0, 0);
-
-                //size
-                canvas.width = create.profile.offsetWidth;
-                canvas.height = create.profile.offsetHeight;
-                dctx.putImageData(getimage, 0, 0);
-                image_d.src = canvas.toDataURL();
-                ctx_1.drawImage(image_d, 0, 0, 100, 100);
-                return create.canvas_image.toDataURL();
-            }
         }
     }
+
+    function profileData() {
+
+        var getimage = ctx.getImageData(create.profile.offsetLeft - create.canvas.offsetLeft, create.profile.offsetTop - create.canvas.offsetTop, create.profile.offsetWidth, create.profile.offsetHeight);
+
+        //size
+        canvas.width = create.profile.offsetWidth;
+        canvas.height = create.profile.offsetHeight;
+        putImage(getimage);
+        return getimage;
+    }
+
+    function putImage(getimage) {
+        dctx.putImageData(getimage, 0, 0);
+        image_d.src = canvas.toDataURL();
+        ctx_1.drawImage(image_d, 0, 0, 100, 100);
+    }
+
+    profile_picture.prototype.imageDataURL = function() {
+        return create.canvas_image.toDataURL();
+    };
+
+    profile_picture.prototype.gray = function() {
+        this.reset();
+        var imageData = this.imageData;
+        imageData = colorful.gray(imageData);
+        putImage(imageData);
+    };
+    profile_picture.prototype.deep = function() {
+        this.reset();
+        var imageData = this.imageData;
+        imageData = colorful.deep(imageData);
+        putImage(imageData);
+    };
+    profile_picture.prototype.light = function() {
+        this.reset();
+        var imageData = this.imageData;
+        imageData = colorful.light(imageData);
+        putImage(imageData);
+    };
+    profile_picture.prototype.reset = function() {
+        this.imageData = profileData();
+    };
 }
 
 profile_picture.prototype.imageData = undefined;
-
-profile_picture.prototype.colorful = colorful;
 
 module.exports = profile_picture;
