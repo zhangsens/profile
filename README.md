@@ -31,7 +31,7 @@ profile.imageData即为图片数据
 
 效果如下：
 
-![img](https://github.com/zhangsens/profile/blob/master/img/20170627.jpg?raw=ture)
+(https://github.com/zhangsens/profile/blob/master/img/20170627.jpg?raw=ture)
 ![img](https://github.com/zhangsens/profile/blob/master/img/20170627_2.jpg?raw=ture)
 
 #后续功能
