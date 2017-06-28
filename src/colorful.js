@@ -1,5 +1,6 @@
 var colorful = {
     gray: function(imageData) {
+        //漫画效果 数组代表红绿蓝透明度
         for (var i = 0; i < imageData.data.length; i += 4) {
             imageData.data[i] = imageData.data[i];
             imageData.data[i + 1] = imageData.data[i];
@@ -10,19 +11,27 @@ var colorful = {
     },
     light: function(imageData) {
         for (var i = 0; i < imageData.data.length; i += 4) {
-            imageData.data[i] = imageData.data[i] + 100;
-            imageData.data[i + 1] = imageData.data[i + 1] + 100;
-            imageData.data[i + 2] = imageData.data[i + 2] + 100;
+            imageData.data[i] = imageData.data[i] + 30;
+            imageData.data[i + 1] = imageData.data[i + 1] + 30;
+            imageData.data[i + 2] = imageData.data[i + 2] + 30;
             imageData.data[i + 3] = 255;
         }
         return imageData;
     },
     deep: function(imageData) {
         for (var i = 0; i < imageData.data.length; i += 4) {
-            imageData.data[i] = imageData.data[i] - 100;
-            imageData.data[i + 1] = imageData.data[i + 1] - 100;
-            imageData.data[i + 2] = imageData.data[i + 2] - 100;
+            imageData.data[i] = imageData.data[i] - 30;
+            imageData.data[i + 1] = imageData.data[i + 1] - 30;
+            imageData.data[i + 2] = imageData.data[i + 2] - 30;
             imageData.data[i + 3] = 255;
+        }
+        return imageData;
+    },
+
+    opacity: function(value) {
+        //value < 1;
+        for (var i = 0; i < imageData.data.length; i += 4) {
+            imageData.data[i + 3] = 255 * value;
         }
         return imageData;
     }

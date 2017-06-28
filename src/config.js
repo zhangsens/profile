@@ -5,8 +5,7 @@ var config = {
     iWidth: 100,
     iHeight: 100,
     max_size: 250,
-    min_size: 100,
-    exhibition: true
+    min_size: 100
 }
 
 module.exports = config;

@@ -2,38 +2,30 @@
 <html>
 
 <head>
-    <style>
-        .profile {
-            box-sizing: border-box;
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            border: 5px double;
-        }
-        
-        .profile_pic {
-            border: 1px solid #FFA500;
-        }
-        
-        .profile_sys {
-            height: 400px;
-        }
-    </style>
+    <link href="./profile.css" rel="stylesheet">
+    <meta charset="utf8">
 </head>
 
 <body>
+    <div id="show"></div>
+    <input id="profile" type="file" name="" value="">
+    <div id="main">
 
+    </div>
     <script src="./dist/profile.min.js"></script>
     <script>
         var profile = new profile_picture({
-            ele: document.body
+            ele: document.getElementById("main"),
+            ele_show: document.getElementById("show"),
+            input: document.getElementById("profile")
         });
         //console.log(profile.imageData);
     </script>
-    <button type="" onclick="profile.gray()">gray</button>
-    <button type="" onclick="profile.deep()">deep</button>
-    <button type="" onclick="profile.light()">light</button>
-    <button type="" onclick="profile.reset()">reset</button>
+    <span>效果：</span>
+    <button type="" onclick="profile.gray()">漫画</button>
+    <button type="" onclick="profile.deep()">加深</button>
+    <button type="" onclick="profile.light()">加亮</button>
+    <button type="" onclick="profile.reset()">原图</button>
 </body>
 
 </html>

@@ -7,16 +7,23 @@ const create = {
     profile: document.createElement("div"),
     profile_sys: document.createElement("div"),
     method: function(option) {
-        var target = option.el || config.target;
-        var stdin = option.el_stdin || config.target;
+
+        var target = option.ele || config.target;
         var ele_show = option.ele_show || config.target;
         var exhibition = option.exhibition || config.exhibition
-        stdin.appendChild(this.input);
-        target.appendChild(this.profile_sys);
-        if (exhibition) {
+        if (option.input) {
+            this.input = option.input;
+        } else {
+            this.input = this.input;
+            var stdin = option.el_stdin || config.target;
+            stdin.appendChild(this.input);
+        }
+        if (ele_show) {
             ele_show.appendChild(this.canvas_image);
         }
+        target.appendChild(this.profile_sys);
         this.profile_sys.appendChild(this.canvas);
+
         this.canvas.width = option.cWidth || config.cWidth;
         this.canvas.height = option.cHeight || config.cHeight;
         this.profile.className = "profile";
@@ -25,6 +32,8 @@ const create = {
         this.canvas_image.width = option.iWidth || config.iWidth;
         this.canvas_image.height = option.iHeight || config.iHeight;
         this.input.type = "file";
+        this.input.accept = "image/gif, image/jpeg,image/x-png";
+
     }
 }
 

@@ -7,7 +7,7 @@ window.profile_picture = function(option) {
 
     const body = document.body;
 
-    create.method(option.ele);
+    create.method(option);
 
     var image = new Image();
     var image_d = new Image();
@@ -30,7 +30,7 @@ window.profile_picture = function(option) {
             image.src = reader.result;
 
             //picture is center in canvas
-            if (image.width / image.height) {
+            if (image.width / image.height > 1) {
                 img_width = 400 * image.width / image.height;
                 img_height = 400;
             } else {
