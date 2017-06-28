@@ -33,8 +33,11 @@ profile.imageData即为图片数据
 
 ![img](https://github.com/zhangsens/profile/blob/master/img/20170627.jpg?raw=ture)
 ![img](https://github.com/zhangsens/profile/blob/master/img/20170627_2.jpg?raw=ture)
+![img](https://github.com/zhangsens/profile/blob/master/img/20170627_3.jpg?raw=ture)
+![img](https://github.com/zhangsens/profile/blob/master/img/20170627_4.jpg?raw=ture)
 
 #后续功能
+
 选区四角增加缩放选择区域额ui
 
 图片可放大缩小，可在canvas内移动定位
