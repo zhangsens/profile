@@ -237,6 +237,12 @@ window.profile_picture = function(option) {
         imageData = colorful.light(imageData);
         putImage(imageData);
     };
+    profile_picture.prototype.opacity = function(value) {
+        this.reset();
+        var imageData = this.imageData;
+        imageData = colorful.light(imageData);
+        putImage(imageData);
+    };
     profile_picture.prototype.reset = function() {
         this.imageData = profileData();
     };

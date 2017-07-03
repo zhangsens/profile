@@ -29,7 +29,7 @@ var colorful = {
     },
 
     opacity: function(value) {
-        //value < 1;
+        //0 < value < 1;
         for (var i = 0; i < imageData.data.length; i += 4) {
             imageData.data[i + 3] = 255 * value;
         }
