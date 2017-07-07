@@ -6,6 +6,7 @@ const create = {
     input: document.createElement("input"),
     profile: document.createElement("div"),
     profile_sys: document.createElement("div"),
+    bar: document.createElement("div"),
     method: function(option) {
 
         var target = option.ele || config.target;
@@ -22,6 +23,7 @@ const create = {
             ele_show.appendChild(this.canvas_image);
         }
         target.appendChild(this.profile_sys);
+        target.appendChild(this.bar);
         this.profile_sys.appendChild(this.canvas);
 
         this.canvas.width = option.cWidth || config.cWidth;
@@ -33,7 +35,8 @@ const create = {
         this.canvas_image.height = option.iHeight || config.iHeight;
         this.input.type = "file";
         this.input.accept = "image/gif, image/jpeg,image/x-png";
-
+        this.bar.innerHTML = "<i></i>";
+        this.bar.className = "bar";
     }
 }
 

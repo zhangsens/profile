@@ -26,14 +26,6 @@ var colorful = {
             imageData.data[i + 3] = 255;
         }
         return imageData;
-    },
-
-    opacity: function(value) {
-        //0 < value < 1;
-        for (var i = 0; i < imageData.data.length; i += 4) {
-            imageData.data[i + 3] = 255 * value;
-        }
-        return imageData;
     }
 }
 

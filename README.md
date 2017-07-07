@@ -36,11 +36,18 @@ profile.imageData即为图片数据
 ![img](https://github.com/zhangsens/profile/blob/master/img/20170627_3.jpg?raw=ture)
 ![img](https://github.com/zhangsens/profile/blob/master/img/20170627_4.jpg?raw=ture)
 
+图片可放大缩小
+
+![img](https://github.com/zhangsens/profile/blob/master/img/20170627_5.jpg?raw=ture)
+![img](https://github.com/zhangsens/profile/blob/master/img/20170627_6.jpg?raw=ture)
+
+同时在非选框区域可以拖动，拖动到最喜欢的位置吧XD
+
+![img](https://github.com/zhangsens/profile/blob/master/img/20170627_7.jpg?raw=ture)
+
 #后续功能
 
 选区四角增加缩放选择区域额ui
-
-图片可放大缩小，可在canvas内移动定位
 
 暂不支持动图，动图需要怎么截取？？？
 

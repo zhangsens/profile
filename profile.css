@@ -16,4 +16,21 @@ canvas {
 
 .profile_sys {
     height: 400px;
+    width: 400px;
+}
+
+.bar {
+    height: 5px;
+    width: 100px;
+    margin: 10px 0;
+    background-color: #000;
+}
+
+.bar i {
+    height: 20px;
+    width: 5px;
+    position: relative;
+    display: inline-block;
+    top: -7px;
+    background-color: orange;
 }

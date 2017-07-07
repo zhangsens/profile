@@ -16,7 +16,7 @@ window.profile_picture = function(option) {
     var minSize = option.minSize || config.min_size;
     var img_x = 0,
         img_y = 0,
-        img_width, img_height, profile_x, profile_y, clientX, clientY, profile_width, profile_height, profile_position_left, profile_position_top;
+        img_width, img_height, x, y, w, h, profile_x, profile_y, clientX, clientY, profile_width, profile_height, profile_position_left, profile_position_top;
 
     const reader = new FileReader();
     const ctx = create.canvas.getContext("2d");
@@ -40,6 +40,11 @@ window.profile_picture = function(option) {
             img_x = (400 - img_width) / 2;
             img_y = (400 - img_height) / 2;
 
+            x = img_x;
+            y = img_y;
+            w = img_width;
+            h = img_height;
+
             ctx.drawImage(image, img_x, img_y, img_width, img_height);
 
             create.profile_sys.appendChild(create.profile);
@@ -49,6 +54,22 @@ window.profile_picture = function(option) {
             create.profile.style.left = profile_x;
 
             profile_picture.prototype.imageData = profileData();
+
+            create.bar.onmousedown = create.bar.onmousemove = function(e) {
+                if (e.button == 0 && e.buttons == 1) {
+                    var value = (e.clientX - create.bar.offsetLeft) / 100 + 1;
+                    if (value <= 2 && value >= 1) {
+                        create.bar.children[0].style.left = e.clientX - create.bar.offsetLeft;
+                        x = img_x * value - create.canvas.width * (value - 1);
+                        y = img_y * value - create.canvas.height * (value - 1);
+                        w = img_width * value;
+                        h = img_height * value;
+                        ctx.drawImage(image, x, y, w, h);
+
+                        profile_picture.prototype.imageData = profileData();
+                    }
+                }
+            }
 
             create.profile_sys.onmousedown = function(e) {
 
@@ -106,6 +127,27 @@ window.profile_picture = function(option) {
                         create.profile_sys.onmousemove = moveProfile;
 
                     }
+                } else if (e.button == 0 && e.target == create.canvas) {
+
+                    create.profile_sys.onmousemove = function(e) {
+                        if (e.button == 0 && e.buttons == 1) {
+                            var a = x + e.clientX - clientX;
+                            var b = y + e.clientY - clientY;
+                            if (a > 400 - w && a < 0) {
+                                x = a;
+                                clientX = e.clientX;
+                            }
+                            if (b > 400 - h && b < 0) {
+                                y = b;
+                                clientY = e.clientY;
+                            }
+                            ctx.clearRect(0, 0, 400, 400);
+                            ctx.drawImage(image, x, y, w, h);
+
+                            profile_picture.prototype.imageData = profileData();
+                        }
+                    };
+
                 }
 
                 body.onmouseup = function() {
@@ -215,6 +257,12 @@ window.profile_picture = function(option) {
         ctx_1.drawImage(image_d, 0, 0, 100, 100);
     }
 
+    profile_picture.prototype.profileSize = function(value) {
+        var x = img_x * value;
+        var y = img_y * value;
+        ctx.drawImage(image, x - create.canvas.width * (value - 1), y - create.canvas.height * (value - 1), img_width * value, img_height * value);
+    }
+
     profile_picture.prototype.imageDataURL = function() {
         return create.canvas_image.toDataURL();
     };
@@ -232,12 +280,6 @@ window.profile_picture = function(option) {
         putImage(imageData);
     };
     profile_picture.prototype.light = function() {
-        this.reset();
-        var imageData = this.imageData;
-        imageData = colorful.light(imageData);
-        putImage(imageData);
-    };
-    profile_picture.prototype.opacity = function(value) {
         this.reset();
         var imageData = this.imageData;
         imageData = colorful.light(imageData);
