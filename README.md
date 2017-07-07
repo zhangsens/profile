@@ -7,18 +7,25 @@
 demo:
 
 var profile = new profile_picture({
+    
     ele:, //原图片位置
-    class:
+
     ele_show, //头像位置
-    class_show:
+
     input, //上传的input
-    input_class:
+    
     cWidth, //原图片画布宽
+
     cHeight, //原图片画布高
+
     iWidth, //头像画布宽
+
     iHeight, //头像画布高
+
     maxSize, //截取区域最大尺寸
+
     minSize //截取区域最小尺寸
+
 });
 profile.imageData即为图片数据
 
